@@ -11,4 +11,7 @@ For CLI tools, it's good to use the standard error (STDERR) output instead of th
 
 exit your program with a return code different than 0 when errors occur.
 
-- os.Args is a slice of strings []string that gives you access to the cli arguments passed to your program.
+## os.Args 
+os.Args is a slice of strings []string that gives you access to the cli arguments passed to your program. It quickly becomes unweily when the app grows. (use the flag package instead!)   
+
+## Flag
