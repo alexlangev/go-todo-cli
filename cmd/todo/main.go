@@ -1,8 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"flag"
+	"fmt"
 	"os"
 
 	"alexlangev/go-todo-cli"
@@ -11,6 +11,13 @@ import (
 const todoFileName = ".todo.json"
 
 func main() {
+	flag.Usage = func() {
+		fmt.Fprintf(flag.CommandLine.Output(), "%s tool. Developed for practice\n", os.Args[0])
+		fmt.Fprintf(flag.CommandLine.Output(), "Copyright 2025\n")
+		fmt.Fprintln(flag.CommandLine.Output(), "Usage information:")
+		flag.PrintDefaults()
+	}
+
 	task := flag.String("task", "", "Task to be included in the ToDo list")
 	list := flag.Bool("list", false, "List all tasks")
 	complete := flag.Int("complete", 0, "Item to be completed")
@@ -27,11 +34,12 @@ func main() {
 	switch {
 
 	case *list:
-		for _, item := range *l {
-			if !item.Done {
-				fmt.Println(item.Task)
-			}
-		}
+		fmt.Print(l)
+		// for _, item := range *l {
+		// 	if !item.Done {
+		// 		fmt.Println(item.Task)
+		// 	}
+		// }
 
 	case *complete > 0:
 		if err := l.Complete(*complete); err != nil {
