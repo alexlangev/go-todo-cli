@@ -14,3 +14,6 @@ clean:
 	go clean ./cmd/todo
 	rm -f todo
 	rm -f .todo.json
+
+test:
+	go test -v ./...
