@@ -4,8 +4,8 @@ import (
 	"bufio"
 	"flag"
 	"fmt"
-	"os"
 	"io"
+	"os"
 	"strings"
 
 	"alexlangev/go-todo-cli"
@@ -29,6 +29,7 @@ func main() {
 	add := flag.Bool("add", false, "Add task to the ToDo list")
 	list := flag.Bool("list", false, "List all tasks")
 	complete := flag.Int("complete", 0, "Item to be completed")
+	delete := flag.Int("delete", 0, "Item to be removed from the ToDo list")
 
 	flag.Parse()
 
@@ -46,6 +47,17 @@ func main() {
 
 	case *complete > 0:
 		if err := l.Complete(*complete); err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			os.Exit(1)
+		}
+
+		if err := l.Save(todoFileName); err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			os.Exit(1)
+		}
+
+	case *delete > 0:
+		if err := l.Delete(*delete); err != nil {
 			fmt.Fprintln(os.Stderr, err)
 			os.Exit(1)
 		}
@@ -79,7 +91,7 @@ func main() {
 
 }
 
-func getTask(r io.Reader, args ...string)(string, error) {
+func getTask(r io.Reader, args ...string) (string, error) {
 	if len(args) > 0 {
 		return strings.Join(args, " "), nil
 	}

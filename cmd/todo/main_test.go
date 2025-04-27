@@ -2,11 +2,11 @@ package main_test
 
 import (
 	"fmt"
+	"io"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"runtime"
-	"io"
 	"testing"
 )
 
