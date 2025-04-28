@@ -117,3 +117,20 @@ func (l *List) VerboseString() string {
 
 	return formatted
 }
+
+func (l *List) CompletedString() string {
+	formatted := ""
+
+	for k, t := range *l {
+		prefix := " "
+		postfix := ""
+
+		if t.Done {
+			prefix = "X "
+			postfix = " - Completed at: " + t.CompletedAt.Format(timeFormat)
+			formatted += fmt.Sprintf("%s%d: %s%s\n", prefix, k+1, t.Task, postfix)
+		}
+	}
+
+	return formatted
+}

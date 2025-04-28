@@ -30,6 +30,7 @@ func main() {
 	list := flag.Bool("list", false, "List all tasks")
 	verbose := flag.Bool("verbose", false, "List additional information (only works with flag -list)")
 	complete := flag.Int("complete", 0, "Item to be completed")
+	completed := flag.Bool("completed", false, "List completed items")
 	delete := flag.Int("delete", 0, "Item to be removed from the ToDo list")
 
 	flag.Parse()
@@ -60,6 +61,10 @@ func main() {
 			fmt.Fprintln(os.Stderr, err)
 			os.Exit(1)
 		}
+
+	case *completed:
+		// list completed?
+		fmt.Print(l.CompletedString())
 
 	case *delete > 0:
 		if err := l.Delete(*delete); err != nil {
