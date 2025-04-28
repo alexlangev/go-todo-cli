@@ -17,6 +17,8 @@ type item struct {
 
 type List []item
 
+const timeFormat string = "2006-01-02"
+
 func (l *List) Add(task string) {
 	t := item{
 		Task:        task,
@@ -81,6 +83,7 @@ func (l *List) Get(filename string) error {
 	return json.Unmarshal(file, l)
 }
 
+// implementation of the fmt.Stringer() interface
 func (l *List) String() string {
 	formatted := ""
 
@@ -92,6 +95,24 @@ func (l *List) String() string {
 		}
 
 		formatted += fmt.Sprintf("%s%d: %s\n", prefix, k+1, t.Task)
+	}
+
+	return formatted
+}
+
+func (l *List) VerboseString() string {
+	formatted := ""
+
+	for k, t := range *l {
+		prefix := " "
+		postfix := ""
+
+		if t.Done {
+			prefix = "X "
+			postfix = " - Completed at: " + t.CompletedAt.Format(timeFormat)
+		}
+
+		formatted += fmt.Sprintf("%s%d: %s%s\n", prefix, k+1, t.Task, postfix)
 	}
 
 	return formatted

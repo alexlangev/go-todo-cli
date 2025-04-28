@@ -28,6 +28,7 @@ func main() {
 
 	add := flag.Bool("add", false, "Add task to the ToDo list")
 	list := flag.Bool("list", false, "List all tasks")
+	verbose := flag.Bool("verbose", false, "List additional information (only works with flag -list)")
 	complete := flag.Int("complete", 0, "Item to be completed")
 	delete := flag.Int("delete", 0, "Item to be removed from the ToDo list")
 
@@ -43,7 +44,11 @@ func main() {
 	switch {
 
 	case *list:
-		fmt.Print(l)
+		if *verbose {
+			fmt.Println(l.VerboseString())
+		} else {
+			fmt.Print(l)
+		}
 
 	case *complete > 0:
 		if err := l.Complete(*complete); err != nil {
